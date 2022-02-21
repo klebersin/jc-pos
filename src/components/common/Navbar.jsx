@@ -7,18 +7,20 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import {  useNavigate } from "react-router-dom";
+import {  Link } from "react-router-dom";
 //import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 //import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
-const pages = ["Alumnos", "Pagos"];
+const pages = [
+  {name: "Alumnos", rute: "/"},
+  {name: "Pagos", rute: "/payments"},
+];
 //const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
 const Navbar = () => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
-  const navigate = useNavigate();
   //const [anchorElUser, setAnchorElUser] = React.useState(null);
 
   const handleOpenNavMenu = (event) => {
@@ -29,7 +31,6 @@ const Navbar = () => {
   };*/
 
   const handleCloseNavMenu = () => {
-    navigate('/student')
     setAnchorElNav(null);
   };
 
@@ -80,8 +81,8 @@ const Navbar = () => {
               }}
             >
               {pages.map((page) => (
-                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                  <Typography textAlign="center">{page}</Typography>
+                <MenuItem key={page.name} onClick={handleCloseNavMenu}>
+                  <Typography  textAlign="center"><Link to={page.rute}>{page.name}</Link></Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -97,11 +98,11 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {pages.map((page) => (
               <Button
-                key={page}
+                key={page.name}
                 onClick={handleCloseNavMenu}
                 sx={{ my: 2, color: "white", display: "block" }}
               >
-                {page}
+                <Link to={page.rute}>{page.name}</Link>
               </Button>
             ))}
           </Box>
