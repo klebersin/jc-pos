@@ -1,6 +1,6 @@
 import React from 'react'
 
-function PaymentTable() {
+const PaymentTable = () => {
 
     return (
         <>Here</>
@@ -8,4 +8,4 @@ function PaymentTable() {
 }
 
 
-export default PaymentTable();
+export default PaymentTable;
