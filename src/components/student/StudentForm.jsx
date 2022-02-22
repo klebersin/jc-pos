@@ -4,12 +4,13 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import { useForm } from "react-hook-form";
 import React from "react";
 import {useNavigate} from "react-router-dom";
-import StudentApi from "../../api/studentApi";
+import axios from "axios";
 const StudentForm = () => {
     const { register, handleSubmit} = useForm();
     const myData = async data => {
         try{
-            await StudentApi.createStudent(data);
+          const students = await axios.post(`http://localhost:3000/students`, data);
+          console.log(students);
         }catch (err){
             console.log(err.message);
         }
