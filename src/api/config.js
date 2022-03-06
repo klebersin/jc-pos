@@ -1,9 +1,13 @@
-import axios from "axios";
+import Axios from "axios";
 
-const BASE_URL = process.env.API_URL;
+const config = {
+  backendUrl: process.env.API_URL || "http://localhost:3000",
+};
 
-const API = axios.create({
-    baseURL: BASE_URL
-})
-
-export default API;
+const Api = (options) => {
+  return Axios({
+    ...options,
+    baseURL: config.backendUrl,
+  });
+};
+export default Api;

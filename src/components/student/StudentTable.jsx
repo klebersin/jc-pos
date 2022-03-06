@@ -1,5 +1,6 @@
 import {
   Button,
+  ButtonGroup,
   Paper,
   Table,
   TableBody,
@@ -8,55 +9,103 @@ import {
   TableHead,
   TableRow,
 } from "@mui/material";
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import StudentAPI from "../../api/studentApi";
+import { getGrade } from "../../services/helpers";
+import StudentModal from "./StudentModal";
 
-function StudentTable() {
-  function createData(name, calories, fat, carbs, protein) {
-    return { name, calories, fat, carbs, protein };
-  }
-  const navigate = useNavigate();
-  const rows = [
-    createData("Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData("Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData("Eclair", 262, 16.0, 24, 6.0),
-    createData("Cupcake", 305, 3.7, 67, 4.3),
-    createData("Gingerbread", 356, 16.0, 49, 3.9),
-  ];
+const StudentTable = () => {
+  const [students, setStudents] = useState([]);
+  const [openStudentModel, setOpenStudentModel] = useState(false);
+  const [editingStudent, setEditingStudent] = useState({});
+
+  const fetchStudents = async () => {
+    const stds = await StudentAPI.getStudents();
+    setStudents(stds);
+  };
+
+  const deleteStudent = async (studentId) => {
+    try {
+      await StudentAPI.deleteStudent(studentId);
+    } catch (error) {
+      console.log(error);
+    }
+
+    fetchStudents();
+  };
+
+  const editStudent = (data) => {
+    setEditingStudent(data);
+    setOpenStudentModel(true);
+  };
+
+  useEffect(() => {
+    fetchStudents();
+  }, []);
+
   return (
     <>
-    <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 650 }} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>DNI</TableCell>
-            <TableCell align="right">Código</TableCell>
-            <TableCell align="right">Nombres</TableCell>
-            <TableCell align="right">Apellidos</TableCell>
-            <TableCell align="right">Año de estudios</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow
-              key={row.name}
-              sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.name}
-              </TableCell>
-              <TableCell align="right">{row.calories}</TableCell>
-              <TableCell align="right">{row.fat}</TableCell>
-              <TableCell align="right">{row.carbs}</TableCell>
-              <TableCell align="right">{row.protein}</TableCell>
+      <TableContainer component={Paper}>
+        <Table sx={{ minWidth: 650 }} aria-label="simple table">
+          <TableHead>
+            <TableRow>
+              <TableCell>DNI</TableCell>
+              <TableCell>Nombres</TableCell>
+              <TableCell>Apellido paterno</TableCell>
+              <TableCell>Apellido materno</TableCell>
+              <TableCell>Año de estudios</TableCell>
+              <TableCell>Opciones</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
-    <Button variant="contained" onClick={()=> navigate('/student/new')}>Agregar alumno</Button>
+          </TableHead>
+          <TableBody>
+            {students.map((student) => (
+              <TableRow
+                key={student.code}
+                sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
+              >
+                <TableCell component="th" scope="row">
+                  {student.code}
+                </TableCell>
+                <TableCell>{student.name}</TableCell>
+                <TableCell>{student.plastname}</TableCell>
+                <TableCell>{student.mlastname}</TableCell>
+                <TableCell>{getGrade(student.grade)}</TableCell>
+                <TableCell>
+                  <ButtonGroup variant="contained">
+                    <Button onClick={() => editStudent(student)}>Editar</Button>
+                    <Button
+                      onClick={() => deleteStudent(student._id)}
+                      color="error"
+                    >
+                      Eliminar
+                    </Button>
+                  </ButtonGroup>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <Button
+        variant="contained"
+        onClick={() => {
+          setOpenStudentModel(true);
+          setEditingStudent({});
+        }}
+      >
+        Agregar alumno
+      </Button>
+      {openStudentModel && (
+        <StudentModal
+          setOpenStudentModel={setOpenStudentModel}
+          openStudentModel={openStudentModel}
+          fetchStudents={fetchStudents}
+          editingStudent={editingStudent}
+          setEditingStudent={setEditingStudent}
+        />
+      )}
     </>
   );
-}
+};
 
 export default StudentTable;

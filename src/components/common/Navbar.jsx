@@ -7,15 +7,17 @@ import Typography from "@mui/material/Typography";
 import Menu from "@mui/material/Menu";
 import MenuIcon from "@mui/icons-material/Menu";
 import Container from "@mui/material/Container";
-import {  Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 //import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 //import Tooltip from "@mui/material/Tooltip";
 import MenuItem from "@mui/material/MenuItem";
 
 const pages = [
-  {name: "Alumnos", rute: "/"},
-  {name: "Pagos", rute: "/payments"},
+  { name: "Alumnos", rute: "/" },
+  { name: "Pagos", rute: "/payments" },
+  { name: "Productos", rute: "/products" },
+  { name: "Reportes", rute: "/reports" },
 ];
 //const settings = ["Profile", "Account", "Dashboard", "Logout"];
 
@@ -82,7 +84,9 @@ const Navbar = () => {
             >
               {pages.map((page) => (
                 <MenuItem key={page.name} onClick={handleCloseNavMenu}>
-                  <Typography  textAlign="center"><Link to={page.rute}>{page.name}</Link></Typography>
+                  <Typography textAlign="center">
+                    <Link to={page.rute}>{page.name}</Link>
+                  </Typography>
                 </MenuItem>
               ))}
             </Menu>
