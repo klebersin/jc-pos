@@ -9,53 +9,57 @@ import {
   TextField,
 } from "@mui/material";
 import React, { useState } from "react";
-import { MONTHLY_PAYMENT_TYPES, SERVICES_TYPES } from "../../constants";
+import { SERVICES_TYPES, YEAR_OPTIONS } from "../../constants";
 
-const MonthlyPayment = ({ items, setItems }) => {
-  const [monthlyAmount, setMonthlyAmount] = useState();
-  const [monthPayment, setMonthPayment] = useState();
+const Registration = ({ items, setItems }) => {
+  const [registrationYear, setRegistrationYear] = useState(
+    new Date().getFullYear()
+  );
+  const [registrationAmount, setRegistrationAmount] = useState();
+
+  const handleChange = (event) => {
+    setRegistrationYear(event.target.value);
+  };
 
   const addItem = () => {
     setItems([
       ...items,
       {
-        type: SERVICES_TYPES.MONTHLY_PAYMENT.value,
-        reason: monthPayment,
+        type: SERVICES_TYPES.REGISTRATION.value,
+        reason: registrationYear,
         quantity: 1,
-        unitPrice: parseFloat(monthlyAmount || 0),
-        totalPrice: parseFloat(monthlyAmount || 0),
+        unitPrice: parseFloat(registrationAmount || 0),
+        totalPrice: parseFloat(registrationAmount || 0),
         discount: 0,
       },
     ]);
   };
+
   return (
     <Box sx={{ maxWidth: 220 }}>
       <FormControl fullWidth>
-        <InputLabel id="demo-simple-select-label">Mes de la pensión</InputLabel>
+        <InputLabel id="demo-simple-select-label">Año de matricula</InputLabel>
         <Select
-          labelId="month"
+          labelId="year"
           id="demo-simple-select"
-          value={monthPayment}
-          label="Mes de la pensión"
-          onChange={(e) => {
-            setMonthPayment(e.target.value);
-          }}
+          value={registrationYear}
+          label="Año de matricula"
+          onChange={handleChange}
         >
-          {Object.keys(MONTHLY_PAYMENT_TYPES).map((key) => (
-            <MenuItem value={MONTHLY_PAYMENT_TYPES[key].value}>
-              {MONTHLY_PAYMENT_TYPES[key].label}
+          {Object.keys(YEAR_OPTIONS).map((option) => (
+            <MenuItem value={YEAR_OPTIONS[option]}>
+              {YEAR_OPTIONS[option]}
             </MenuItem>
           ))}
         </Select>
       </FormControl>
-
       <Box mt={2}>
         <FormControl fullWidth>
           <TextField
             label="Monto"
-            value={monthlyAmount}
+            value={registrationAmount}
             onChange={(e) => {
-              setMonthlyAmount(e.target.value);
+              setRegistrationAmount(e.target.value);
             }}
             InputProps={{
               startAdornment: (
@@ -76,4 +80,4 @@ const MonthlyPayment = ({ items, setItems }) => {
   );
 };
 
-export default MonthlyPayment;
+export default Registration;

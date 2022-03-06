@@ -46,4 +46,17 @@ const SERVICES_TYPES = {
   PRODUCTS: { value: "products", label: "Productos" },
 };
 
-module.exports = { GRADES, SERVICES_TYPES, MONTHLY_PAYMENT_TYPES };
+const YEAR_OPTIONS = {
+  TWENTY_TWO: "2022",
+  TWENTY_THREE: "2023",
+  TWENTY_FOUR: "2024",
+  TWENTY_FIVE: "2025",
+  TWENTY_SIX: "2026",
+};
+
+module.exports = {
+  GRADES,
+  SERVICES_TYPES,
+  MONTHLY_PAYMENT_TYPES,
+  YEAR_OPTIONS,
+};

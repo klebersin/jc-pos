@@ -1,7 +1,9 @@
-import { Autocomplete, Tab, Tabs, TextField, Typography } from "@mui/material";
+import { Tab, Tabs, Typography } from "@mui/material";
 import { Box } from "@mui/system";
-import React from "react";
-import { MONTHLY_PAYMENT_TYPES, SERVICES_TYPES } from "../../constants";
+import React, { useState } from "react";
+import { SERVICES_TYPES } from "../../constants";
+import MonthlyPayment from "./MonthlyPayment";
+import Registration from "./Registration";
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -23,43 +25,35 @@ function TabPanel(props) {
   );
 }
 
-const Invoice = () => {
-  const [value, setValue] = React.useState(0);
+const Invoice = ({ setItems, items }) => {
+  const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
   return (
-    <Box mt={2}>
+    <Box sx={{ p: 2, border: 1 }}>
       <Box sx={{ width: "100%" }}>
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
+          <Tabs value={value} onChange={handleChange}>
             {Object.keys(SERVICES_TYPES).map((key) => (
-              <Tab label={SERVICES_TYPES[key].label} />
+              <Tab
+                label={SERVICES_TYPES[key].label}
+                disabled={
+                  SERVICES_TYPES[key].value === SERVICES_TYPES.PRODUCTS.value
+                }
+              />
             ))}
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          Item One
+          <Registration items={items} setItems={setItems} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <Autocomplete
-            disablePortal
-            id="combo-box-demo"
-            options={Object.keys(MONTHLY_PAYMENT_TYPES).map(
-              (key) => MONTHLY_PAYMENT_TYPES[key]
-            )}
-            getOptionLabel={(option) => option.label}
-            sx={{ width: 300 }}
-            renderInput={(params) => <TextField {...params} label="Movie" />}
-          />
+          <MonthlyPayment items={items} setItems={setItems} />
         </TabPanel>
         <TabPanel value={value} index={2}>
-          Item Three
+          Coming soon
         </TabPanel>
       </Box>
     </Box>
