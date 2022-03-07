@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const config = {
-  backendUrl: process.env.API_URL || "http://localhost:3000",
+  backendUrl: process.env.API_URL,
 };
 
 const Api = (options) => {
