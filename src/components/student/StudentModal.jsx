@@ -1,10 +1,11 @@
-import { Button, TextField } from "@mui/material";
+import { Button, MenuItem, Select, TextField } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SaveIcon from "@mui/icons-material/Save";
 import React from "react";
 import { useForm } from "react-hook-form";
 import Modal from "../common/Modal";
 import StudentAPI from "../../api/studentApi";
+import { GRADES } from "../../constants";
 
 const StudentModal = ({
   setOpenStudentModel,
@@ -15,13 +16,16 @@ const StudentModal = ({
 }) => {
   const defaultValues = {
     name: editingStudent.name || "",
-    plastname: editingStudent.plastname || "",
-    mlastname: editingStudent.mlastname || "",
+    fatherSurname: editingStudent.fatherSurname || "",
+    motherSurname: editingStudent.motherSurname || "",
+    email: editingStudent.email || "",
+    phoneNumber: editingStudent.phoneNumber || "",
     code: editingStudent.code || "",
-    grade: editingStudent.grade || "",
-    fatherNames: editingStudent.fatherNames || "",
-    motherNames: editingStudent.motherNames || "",
+    grade: editingStudent.grade || 1,
+    tutor: editingStudent.tutor || "",
+    tutorCode: editingStudent.tutorCode || "",
     address: editingStudent.address || "",
+    monthly: editingStudent.monthly || "",
   };
 
   const { register, handleSubmit } = useForm({ defaultValues });
@@ -50,45 +54,67 @@ const StudentModal = ({
   const StudentForm = () => {
     return (
       <form onSubmit={handleSubmit(save)}>
+        <TextField label="DNI" variant="outlined" {...register("code")} />
         <TextField label="Nombres" variant="outlined" {...register("name")} />
+        <br />
         <br />
         <TextField
           label="Apellido Paterno"
           variant="outlined"
-          {...register("plastname")}
+          {...register("fatherSurname")}
         />
-        <br />
         <TextField
           label="Apellido Materno"
           variant="outlined"
-          {...register("mlastname")}
+          {...register("motherSurname")}
         />
         <br />
-        <TextField label="DNI" variant="outlined" {...register("code")} />
+        <br />
+
+        <Select {...register("grade")} style={{ width: 250 }}>
+          {Object.keys(GRADES).map((key) => (
+            <MenuItem value={GRADES[key].value}>{GRADES[key].label}</MenuItem>
+          ))}
+        </Select>
+
+        <TextField
+          label="Correo Electrónico"
+          variant="outlined"
+          {...register("email")}
+        />
+        <br />
         <br />
         <TextField
-          label="Año de estudios"
+          label="Numero de teléfono"
           variant="outlined"
-          {...register("grade")}
+          {...register("phoneNumber")}
         />
-        <br />
-        <TextField
-          label="Nombre completo de la madre"
-          variant="outlined"
-          {...register("fatherNames")}
-        />
-        <br />
-        <TextField
-          label="Nombre completo del padre"
-          variant="outlined"
-          {...register("motherNames")}
-        />
-        <br />
         <TextField
           label="Direccion"
           variant="outlined"
           {...register("address")}
         />
+        <br />
+        <br />
+        <TextField
+          label="Apoderado del alumno"
+          variant="outlined"
+          {...register("tutor")}
+        />
+        <TextField
+          label="DNI del apoderado"
+          variant="outlined"
+          {...register("tutorCode")}
+        />
+        <br />
+
+        <br />
+        <TextField
+          label="Pensión"
+          variant="outlined"
+          {...register("monthly")}
+        />
+        <br />
         <br />
         <Button
           color="error"

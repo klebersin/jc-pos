@@ -55,12 +55,12 @@ const Reports = () => {
               <TableCell>
                 {invoice.student[0].name +
                   " " +
-                  invoice.student[0].plastname +
+                  invoice.student[0].fatherSurname +
                   " " +
-                  invoice.student[0].mlastname}
+                  invoice.student[0].motherSurname}
               </TableCell>
               <TableCell>{invoice.status}</TableCell>
-              <TableCell>{invoice.amount}</TableCell>
+              <TableCell>S/. {invoice.amount}</TableCell>
             </TableRow>
           ))}
         </TableBody>

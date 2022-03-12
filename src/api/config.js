@@ -1,7 +1,7 @@
 import Axios from "axios";
 
 const config = {
-  backendUrl: process.env.API_URL,
+  backendUrl: process.env.REACT_APP_API_URL,
 };
 
 const Api = (options) => {

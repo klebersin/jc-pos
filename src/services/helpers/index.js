@@ -7,3 +7,9 @@ export const getGrade = (value) => {
   }
   return grade.label;
 };
+export const toLocaleString = (value) => {
+  return parseFloat(value).toLocaleString("es-PE", {
+    style: "currency",
+    currency: "PEN",
+  });
+};

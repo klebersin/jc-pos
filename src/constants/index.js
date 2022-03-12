@@ -25,6 +25,17 @@ const GRADES = [
   },
 ];
 
+const PAYMENT_METHODS = {
+  CASH: {
+    value: "cash",
+    label: "Efectivo",
+  },
+  BANK_TRANSFER: {
+    value: "bankTransfer",
+    label: "Transferencia bancaria",
+  },
+};
+
 const MONTHLY_PAYMENT_TYPES = {
   JANUARY: { value: "January", label: "Enero" },
   FEBRUARY: { value: "February", label: "Febrero" },
@@ -59,4 +70,5 @@ module.exports = {
   SERVICES_TYPES,
   MONTHLY_PAYMENT_TYPES,
   YEAR_OPTIONS,
+  PAYMENT_METHODS,
 };

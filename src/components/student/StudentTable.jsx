@@ -14,14 +14,17 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import StudentAPI from "../../api/studentApi";
-import { getGrade } from "../../services/helpers";
+import { getGrade, toLocaleString } from "../../services/helpers";
 import StudentModal from "./StudentModal";
 import SearchIcon from "@mui/icons-material/Search";
+import ConfirmCancelModal from "../common/ConfirmCancelModal";
 
 const StudentTable = () => {
   const [students, setStudents] = useState([]);
   const [openStudentModel, setOpenStudentModel] = useState(false);
   const [editingStudent, setEditingStudent] = useState({});
+  const [deletingStudent, setDeletingStudent] = useState({});
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const fetchStudents = async () => {
     const stds = await StudentAPI.getStudents();
@@ -82,8 +85,10 @@ const StudentTable = () => {
                 <TableCell>Nombres</TableCell>
                 <TableCell>Apellido paterno</TableCell>
                 <TableCell>Apellido materno</TableCell>
+                <TableCell>Correo electrónico</TableCell>
                 <TableCell>Año de estudios</TableCell>
                 <TableCell>Telefono/Celular</TableCell>
+                <TableCell>Pensión</TableCell>
                 <TableCell>Opciones</TableCell>
               </TableRow>
             </TableHead>
@@ -97,17 +102,22 @@ const StudentTable = () => {
                     {student.code}
                   </TableCell>
                   <TableCell>{student.name}</TableCell>
-                  <TableCell>{student.plastname}</TableCell>
-                  <TableCell>{student.mlastname}</TableCell>
+                  <TableCell>{student.fatherSurname}</TableCell>
+                  <TableCell>{student.motherSurname}</TableCell>
+                  <TableCell>{student.email}</TableCell>
                   <TableCell>{getGrade(student.grade)}</TableCell>
-                  <TableCell>99999999999</TableCell>
+                  <TableCell>{student.phoneNumber}</TableCell>
+                  <TableCell>{toLocaleString(student.monthly)}</TableCell>
                   <TableCell>
                     <ButtonGroup variant="contained">
                       <Button onClick={() => editStudent(student)}>
                         Editar
                       </Button>
                       <Button
-                        onClick={() => deleteStudent(student._id)}
+                        onClick={() => {
+                          setDeletingStudent(student._id);
+                          setOpenDeleteModal(true);
+                        }}
                         color="error"
                       >
                         Eliminar
@@ -127,6 +137,18 @@ const StudentTable = () => {
           fetchStudents={fetchStudents}
           editingStudent={editingStudent}
           setEditingStudent={setEditingStudent}
+        />
+      )}
+      {openDeleteModal && (
+        <ConfirmCancelModal
+          open={openDeleteModal}
+          onCancel={() => {
+            setOpenDeleteModal(false);
+          }}
+          onContinue={() => {
+            deleteStudent(deletingStudent);
+            setOpenDeleteModal(false);
+          }}
         />
       )}
     </Box>

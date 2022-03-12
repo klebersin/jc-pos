@@ -22,7 +22,7 @@ const PaymentTable = () => {
         <Autocomplete
           value={student}
           options={students}
-          getOptionLabel={(option) => option.name + " " + option.plastname}
+          getOptionLabel={(option) => option.name + " " + option.fatherSurname}
           onChange={(e, chosenStudent) => {
             setStudent(chosenStudent);
           }}

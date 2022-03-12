@@ -2,7 +2,9 @@ import {
   Box,
   Button,
   Grid,
+  MenuItem,
   Paper,
+  Select,
   Table,
   TableBody,
   TableCell,
@@ -13,11 +15,19 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { MONTHLY_PAYMENT_TYPES, SERVICES_TYPES } from "../../constants";
+import {
+  MONTHLY_PAYMENT_TYPES,
+  PAYMENT_METHODS,
+  SERVICES_TYPES,
+} from "../../constants";
 import InvoiceAPI from "../../api/paymentApi";
+import { toLocaleString } from "../../services/helpers";
 
 const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
   const [totalAmount, setTotalAmount] = useState(0);
+  const [paymentMethod, setPaymentMethod] = useState(
+    PAYMENT_METHODS.CASH.value
+  );
 
   const removeItem = (index) => {
     setItems([...items.filter((_, i) => i !== index)]);
@@ -48,7 +58,9 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
         items,
         student: student._id,
         amount: totalAmount,
+        paymentMethod,
       };
+      console.log(newInvoice);
       await InvoiceAPI.createInvoice(newInvoice);
       setStudent(null);
       setItems([]);
@@ -71,7 +83,7 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
             <TableRow>
               <TableCell>#</TableCell>
               <TableCell>Tipo</TableCell>
-              <TableCell align="right">Razon</TableCell>
+              <TableCell align="right">Razón</TableCell>
               <TableCell align="right">Precio unitario</TableCell>
               <TableCell align="right">Cantidad</TableCell>
               <TableCell align="right">Descuento</TableCell>
@@ -97,10 +109,16 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
                     ? item.reason
                     : getMonth(item.reason)}
                 </TableCell>
-                <TableCell align="right">{item.unitPrice}</TableCell>
+                <TableCell align="right">
+                  {toLocaleString(item.unitPrice)}
+                </TableCell>
                 <TableCell align="right">{item.quantity}</TableCell>
-                <TableCell align="right">{item.discount}</TableCell>
-                <TableCell align="right">{item.totalPrice}</TableCell>
+                <TableCell align="right">
+                  {toLocaleString(item.discount)}
+                </TableCell>
+                <TableCell align="right">
+                  {toLocaleString(item.totalPrice)}
+                </TableCell>
                 <TableCell
                   align="right"
                   onClick={() => {
@@ -117,9 +135,23 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
       <Box mt={2}>
         <Grid container direction="row" justifyContent="flex-end">
           <Grid item xs={2}>
-            <Typography>Monto total: {totalAmount}</Typography>
+            <Typography>Monto total: {toLocaleString(totalAmount)}</Typography>
           </Grid>
-          <Grid item>
+          <Grid item xs={paymentMethod === PAYMENT_METHODS.CASH.value ? 2 : 4}>
+            <Select
+              value={paymentMethod}
+              onChange={(e) => {
+                setPaymentMethod(e.target.value);
+              }}
+            >
+              {Object.keys(PAYMENT_METHODS).map((key) => (
+                <MenuItem value={PAYMENT_METHODS[key].value}>
+                  {PAYMENT_METHODS[key].label}
+                </MenuItem>
+              ))}
+            </Select>
+          </Grid>
+          <Grid item xs={2}>
             <Button
               variant="contained"
               onClick={createInvoice}
