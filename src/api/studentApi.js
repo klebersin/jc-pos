@@ -1,10 +1,15 @@
 import Api from "./config";
 
 class StudentAPI {
-  static getStudents() {
+  static getStudents(page, rowsPerPage, filterStudents ) {
     return Api({
       method: "GET",
       url: "/students",
+      params: {
+        page,
+        rowsPerPage,
+        filterStudents
+      }
     }).then((res) => res.data);
   }
   static createStudent(data) {
