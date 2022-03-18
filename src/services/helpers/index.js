@@ -13,3 +13,12 @@ export const toLocaleString = (value) => {
     currency: "PEN",
   });
 };
+export const getDate = (date) => {
+  var options = {
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const today = new Date(date);
+  return today.toLocaleDateString("es-PE", options);
+};
