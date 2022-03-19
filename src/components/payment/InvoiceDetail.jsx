@@ -22,6 +22,7 @@ import {
 } from "../../constants";
 import InvoiceAPI from "../../api/paymentApi";
 import { toLocaleString } from "../../services/helpers";
+import { toast } from "react-toastify";
 
 const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
   const [totalAmount, setTotalAmount] = useState(0);
@@ -60,12 +61,14 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
         amount: totalAmount,
         paymentMethod,
       };
-      console.log(newInvoice);
       await InvoiceAPI.createInvoice(newInvoice);
+      toast.success("Boleta creada");
       setStudent(null);
       setItems([]);
       setTotalAmount(0);
-    } catch (error) {}
+    } catch (error) {
+      toast.error("Algo salió mal");
+    }
   };
 
   const getMonth = (value) => {
@@ -134,10 +137,14 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
       </TableContainer>
       <Box mt={2}>
         <Grid container direction="row" justifyContent="flex-end">
-          <Grid item xs={2}>
+          <Grid item sm={12} lg={2}>
             <Typography>Monto total: {toLocaleString(totalAmount)}</Typography>
           </Grid>
-          <Grid item xs={paymentMethod === PAYMENT_METHODS.CASH.value ? 2 : 4}>
+          <Grid
+            item
+            sm={12}
+            lg={paymentMethod === PAYMENT_METHODS.CASH.value ? 2 : 4}
+          >
             <Select
               value={paymentMethod}
               onChange={(e) => {
@@ -151,7 +158,7 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
               ))}
             </Select>
           </Grid>
-          <Grid item xs={2}>
+          <Grid item lg={2} sm={12}>
             <Button
               variant="contained"
               onClick={createInvoice}
