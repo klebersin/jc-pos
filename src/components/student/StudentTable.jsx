@@ -274,7 +274,7 @@ const StudentTable = () => {
         <StudentModal
           setOpenStudentModel={setOpenStudentModel}
           openStudentModel={openStudentModel}
-          fetchStudents={fetchStudents}
+          actionAfter={fetchStudents}
           editingStudent={editingStudent}
           setEditingStudent={setEditingStudent}
         />

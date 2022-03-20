@@ -61,8 +61,8 @@ const InvoiceDetail = ({ items = [], setItems, student, setStudent }) => {
         amount: totalAmount,
         paymentMethod,
       };
-      await InvoiceAPI.createInvoice(newInvoice);
-      toast.success("Boleta creada");
+      const createdInvoice = await InvoiceAPI.createInvoice(newInvoice);
+      toast.success(`Boleta ${createdInvoice.code} creada`);
       setStudent(null);
       setItems([]);
       setTotalAmount(0);

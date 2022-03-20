@@ -18,7 +18,7 @@ const pages = [
   { name: "Reportes", rute: "/reports" },
 ];
 
-const Navbar = () => {
+const Navbar = ({ setIsLogged }) => {
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const navigate = useNavigate();
 
@@ -103,6 +103,9 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
+          <Button onClick={() => setIsLogged(false)} color="inherit">
+            Cerrar sesión
+          </Button>
         </Toolbar>
       </Container>
     </AppBar>

@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 const StudentModal = ({
   setOpenStudentModel,
   openStudentModel,
-  fetchStudents,
+  actionAfter,
   editingStudent,
   setEditingStudent,
 }) => {
@@ -41,7 +41,9 @@ const StudentModal = ({
         toast.success("Alumno creado");
       }
 
-      await fetchStudents();
+      if (actionAfter) {
+        await actionAfter();
+      }
       setOpenStudentModel(false);
     } catch (err) {
       toast.error("Ups! Algo salió mal");
@@ -49,7 +51,6 @@ const StudentModal = ({
   };
 
   const handleClose = () => {
-    setEditingStudent({});
     setOpenStudentModel(false);
   };
   const StudentForm = () => {

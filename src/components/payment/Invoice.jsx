@@ -47,10 +47,10 @@ const Invoice = ({ setItems, items, student }) => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Registration items={items} setItems={setItems} />
+          <MonthlyPayment items={items} setItems={setItems} student={student} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <MonthlyPayment items={items} setItems={setItems} student={student} />
+          <Registration items={items} setItems={setItems} />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Coming soon
