@@ -1,4 +1,4 @@
-import { GRADES } from "../../constants";
+import { GRADES, MONTHLY_PAYMENT_TYPES } from "../../constants";
 
 export const getGrade = (value) => {
   const grade = GRADES.find((grade) => grade.value === value);
@@ -21,4 +21,10 @@ export const getDate = (date) => {
   };
   const today = new Date(date);
   return today.toLocaleDateString("es-PE", options);
+};
+
+export const getCurrentMonth = () => {
+  return MONTHLY_PAYMENT_TYPES[
+    Object.keys(MONTHLY_PAYMENT_TYPES)[new Date().getMonth()]
+  ].value;
 };

@@ -52,8 +52,8 @@ const MONTHLY_PAYMENT_TYPES = {
 };
 
 const SERVICES_TYPES = {
-  REGISTRATION: { value: "registration", label: "Matricula" },
   MONTHLY_PAYMENT: { value: "monthlyPayment", label: "Pensión" },
+  REGISTRATION: { value: "registration", label: "Matricula" },
   PRODUCTS: { value: "products", label: "Productos" },
 };
 

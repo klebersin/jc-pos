@@ -10,10 +10,11 @@ import {
 } from "@mui/material";
 import React, { useState } from "react";
 import { MONTHLY_PAYMENT_TYPES, SERVICES_TYPES } from "../../constants";
+import { getCurrentMonth } from "../../services/helpers";
 
-const MonthlyPayment = ({ items, setItems }) => {
-  const [monthlyAmount, setMonthlyAmount] = useState();
-  const [monthPayment, setMonthPayment] = useState();
+const MonthlyPayment = ({ items, setItems, student }) => {
+  const [monthlyAmount, setMonthlyAmount] = useState(student.monthly);
+  const [monthPayment, setMonthPayment] = useState(getCurrentMonth());
 
   const addItem = () => {
     setItems([
@@ -53,13 +54,14 @@ const MonthlyPayment = ({ items, setItems }) => {
         <FormControl fullWidth>
           <TextField
             label="Monto"
+            defaultValue={student.monthly}
             value={monthlyAmount}
             onChange={(e) => {
               setMonthlyAmount(e.target.value);
             }}
             InputProps={{
               startAdornment: (
-                <InputAdornment position="start">S/.</InputAdornment>
+                <InputAdornment position="start">S/</InputAdornment>
               ),
             }}
           />

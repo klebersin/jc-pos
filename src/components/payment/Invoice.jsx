@@ -25,7 +25,7 @@ function TabPanel(props) {
   );
 }
 
-const Invoice = ({ setItems, items }) => {
+const Invoice = ({ setItems, items, student }) => {
   const [value, setValue] = useState(0);
 
   const handleChange = (event, newValue) => {
@@ -47,10 +47,10 @@ const Invoice = ({ setItems, items }) => {
           </Tabs>
         </Box>
         <TabPanel value={value} index={0}>
-          <Registration items={items} setItems={setItems} />
+          <MonthlyPayment items={items} setItems={setItems} student={student} />
         </TabPanel>
         <TabPanel value={value} index={1}>
-          <MonthlyPayment items={items} setItems={setItems} />
+          <Registration items={items} setItems={setItems} />
         </TabPanel>
         <TabPanel value={value} index={2}>
           Coming soon

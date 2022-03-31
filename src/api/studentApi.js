@@ -1,15 +1,15 @@
 import Api from "./config";
 
 class StudentAPI {
-  static getStudents(page, rowsPerPage, filterStudents ) {
+  static getStudents(page, rowsPerPage, filterStudents) {
     return Api({
       method: "GET",
       url: "/students",
       params: {
         page,
         rowsPerPage,
-        filterStudents
-      }
+        filterStudents,
+      },
     }).then((res) => res.data);
   }
   static createStudent(data) {
@@ -29,6 +29,12 @@ class StudentAPI {
   static deleteStudent(id) {
     return Api({
       method: "DELETE",
+      url: `/students/${id}`,
+    }).then((res) => res.data);
+  }
+  static getStudent(id) {
+    return Api({
+      method: "GET",
       url: `/students/${id}`,
     }).then((res) => res.data);
   }
